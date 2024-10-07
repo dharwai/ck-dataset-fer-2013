@@ -1,0 +1,36 @@
+import re
+import csv
+
+# Sample log data
+log_data = """
+Epoch 1/500
+12/12 [==============================] - 10s 207ms/step - loss: 1.4827 - accuracy: 0.5173 - val_loss: 5.1809 - val_accuracy: 0.4688
+Epoch 2/500
+12/12 [==============================] - 0s 30ms/step - loss: 0.8314 - accuracy: 0.6943 - val_loss: 3.0716 - val_accuracy: 0.5052
+Epoch 3/500
+12/12 [==============================] - 0s 30ms/step - loss: 0.5397 - accuracy: 0.8160 - val_loss: 2.1632 - val_accuracy: 0.5625
+Epoch 4/500
+12/12 [==============================] - 0s 35ms/step - loss: 0.4296 - accuracy: 0.8589 - val_loss: 1.6205 - val_accuracy: 0.5938
+Epoch 5/500
+12/12 [==============================] - 0s 30ms/step - loss: 0.3143 - accuracy: 0.8907 - val_loss: 1.1862 - val_accuracy: 0.6771
+"""
+
+# Regular expression to match loss, accuracy, val_loss, and val_accuracy
+pattern = r"loss: ([\d.]+) - accuracy: ([\d.]+) - val_loss: ([\d.]+) - val_accuracy: ([\d.]+)"
+
+# Find all matches
+matches = re.findall(pattern, log_data)
+
+# File path to save the CSV
+csv_file = "training_metrics.csv"
+
+# Write to CSV file
+with open(csv_file, mode='w', newline='') as file:
+    writer = csv.writer(file)
+    # Writing the header
+    writer.writerow(['Loss', 'Accuracy', 'Val_Loss', 'Val_Accuracy'])
+    # Writing the data
+    for match in matches:
+        writer.writerow(match)
+
+print(f"Data successfully written to {csv_file}")
